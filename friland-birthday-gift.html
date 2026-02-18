@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buon Compleanno Amore Mio! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --forest-green: #2d5016;
+            --moss-green: #5a7c47;
+            --sage: #8ba888;
+            --cream: #f5f1e8;
+            --warm-white: #fdfbf7;
+            --earth-brown: #8b7355;
+            --gold: #d4a574;
+            --pink: #e8b4b8;
+            --rose: #d4989d;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #e8dcc4 0%, #f5f1e8 50%, #e8dcc4 100%);
+            color: var(--forest-green);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* AUDIO CONTROLS */
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .audio-control:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .audio-icon {
+            font-size: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .audio-text {
+            font-size: 12px;
+            color: var(--forest-green);
+            font-weight: 500;
+        }
+
+        /* FLOATING ELEMENTS */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: floatUp 8s ease-in infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 5s ease-in infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(212, 165, 116, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(139, 168, 136, 0.1) 0%, transparent 50%);
+        }
+
+        .birthday-message {
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .birthday-emoji {
+            font-size: 80px;
+            display: block;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(40px, 8vw, 80px);
+            color: var(--rose);
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1.5s ease-out 0.3s forwards;
+            opacity: 0;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(24px, 4vw, 36px);
+            color: var(--forest-green);
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            animation: fadeInUp 1.5s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        .scroll-indicator {
+            margin-top: 60px;
+            animation: fadeInUp 1.5s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+
+        .scroll-text {
+            font-size: 14px;
+            color: var(--earth-brown);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .scroll-arrow {
+            font-size: 30px;
+            color: var(--sage);
+            animation: arrowBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        /* GIFT SECTION */
+        .gift-section {
+            min-height: 100vh;
+            padding: 80px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gift-container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--warm-white);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 
+                0 30px 80px rgba(45, 80, 22, 0.15),
+                0 0 0 1px rgba(139, 115, 85, 0.1);
+            position: relative;
+            overflow: hidden;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1s ease-out;
+        }
+
+        .gift-container.animate-in {
+            animation: slideInUp 1s ease-out;
+        }
+
+        @keyframes slideInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gift-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle, rgba(139, 168, 136, 0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .gift-header {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .gift-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: giftPop 1s ease-out;
+        }
+
+        @keyframes giftPop {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .gift-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 6vw, 56px);
+            color: var(--forest-green);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .gift-title span {
+            color: var(--moss-green);
+            display: inline-block;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .friland-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            letter-spacing: 3px;
+            color: var(--sage);
+            font-weight: 300;
+        }
+
+        .gift-details {
+            position: relative;
+            z-index: 2;
+        }
+
+        .detail-card {
+            background: linear-gradient(135deg, rgba(139, 168, 136, 0.08) 0%, rgba(90, 124, 71, 0.05) 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .detail-card.animate-in {
+            animation: slideInLeft 0.6s ease-out backwards;
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .detail-card:nth-child(1) { animation-delay: 0.2s; }
+        .detail-card:nth-child(2) { animation-delay: 0.4s; }
+        .detail-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .detail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+        }
+
+        .detail-emoji {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--earth-brown);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .detail-content {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            color: var(--forest-green);
+            line-height: 1.5;
+        }
+
+        .detail-content strong {
+            color: var(--moss-green);
+            font-weight: 600;
+        }
+
+        .special-message {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--moss-green) 100%);
+            padding: 50px 40px;
+            border-radius: 25px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .special-message.animate-in {
+            animation: scaleIn 0.8s ease-out 0.8s backwards;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .special-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 20px,
+                    rgba(255, 255, 255, 0.03) 20px,
+                    rgba(255, 255, 255, 0.03) 40px
+                );
+        }
+
+        .special-message-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hearts-row {
+            font-size: 40px;
+            margin-bottom: 20px;
+            letter-spacing: 15px;
+        }
+
+        .special-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 5vw, 48px);
+            color: var(--warm-white);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .kisses-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--warm-white);
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .nature-decoration {
+            position: absolute;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .nature-decoration.top-left {
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+        }
+
+        .nature-decoration.top-right {
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+        }
+
+        .nature-decoration.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            font-size: 35px;
+        }
+
+        .nature-decoration.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            font-size: 35px;
+        }
+
+        /* FOOTER */
+        .footer-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .footer-message {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: var(--earth-brown);
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+
+        .friland-link {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--sage);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(139, 168, 136, 0.3);
+        }
+
+        .friland-link:hover {
+            background: var(--moss-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 168, 136, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .gift-container {
+                padding: 40px 25px;
+            }
+
+            .detail-card {
+                padding: 25px 20px;
+            }
+
+            .special-message {
+                padding: 40px 25px;
+            }
+
+            .hearts-row {
+                font-size: 30px;
+                letter-spacing: 10px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .audio-control,
+            .floating-hearts,
+            .scroll-indicator {
+                display: none;
+            }
+            
+            .gift-container {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Control (musica verrà aggiunta quando carichi il file) -->
+    <div class="audio-control" id="audioControl">
+        <span class="audio-icon">🎵</span>
+        <span class="audio-text">Musica</span>
+    </div>
+
+    <!-- Audio element -->
+    <audio id="bgMusic" loop>
+        <source src="Stevie_Wonder_Happy_Birthday.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Elements -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="birthday-message">
+            <span class="birthday-emoji">🎂</span>
+            <h1 class="main-title">BUON COMPLEANNO<br>AMORE MIO!</h1>
+            <p class="subtitle">
+                Per festeggiare come si deve il tuo<br>
+                <strong>primo quarto di secolo</strong><br>
+                ho pensato a una cosa speciale...
+            </p>
+            <div class="scroll-indicator">
+                <p class="scroll-text">Scorri per scoprire</p>
+                <div class="scroll-arrow">↓</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gift Section -->
+    <section class="gift-section">
+        <div class="gift-container" id="giftContainer">
+            <div class="nature-decoration top-left">🌿</div>
+            <div class="nature-decoration top-right">🌲</div>
+            <div class="nature-decoration bottom-left">🦋</div>
+            <div class="nature-decoration bottom-right">🍃</div>
+
+            <div class="gift-header">
+                <div class="gift-icon">🎁</div>
+                <h2 class="gift-title">
+                    UNA NOTTE IN UNA<br>
+                    <span>TINY HOUSE</span><br>
+                    <span class="friland-logo">FRILAND!</span>
+                </h2>
+            </div>
+
+            <div class="gift-details">
+                <div class="detail-card" data-delay="0">
+                    <div class="detail-emoji">🏔️</div>
+                    <div class="detail-label">Dove</div>
+                    <div class="detail-content">
+                        <strong>Ovunque tu voglia!</strong><br>
+                        Toscana • Veneto • Friuli Venezia Giulia
+                    </div>
+                </div>
+
+                <div class="detail-card" data-delay="200">
+                    <div class="detail-emoji">📅</div>
+                    <div class="detail-label">Quando</div>
+                    <div class="detail-content">
+                        <strong>Quando vorrai</strong><br>
+                        (ma ASAP! 😊)
+                    </div>
+                </div>
+
+                <div class="detail-card" data-delay="400">
+                    <div class="detail-emoji">🌲</div>
+                    <div class="detail-label">Cosa include il soggiorno</div>
+                    <div class="detail-content">
+                        Una <strong>tiny house</strong> immersa nella natura<br>
+                        e completamente attrezzata<br>
+                        + una guida per esplorare il territorio,<br>
+                        ma soprattutto...
+                    </div>
+                </div>
+
+                <div class="special-message" data-delay="600">
+                    <div class="special-message-content">
+                        <div class="hearts-row">💚💚💚</div>
+                        <div class="special-text">
+                            TANTO RELAX
+                        </div>
+                        <div class="special-text">
+                            E UN MILIONE DI BACI!
+                        </div>
+                        <div class="kisses-text">💋 💋 💋</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer-section">
+        <a href="https://fri.land/it" target="_blank" class="friland-link">
+            Scopri le destinazioni Friland
+        </a>
+        <br><br>
+        <p style="margin-top: 30px; font-size: 16px; color: var(--earth-brown);">
+            Per ulteriori info: <a href="https://fri.land/it/chi-siamo" target="_blank" style="color: var(--moss-green); text-decoration: none; font-weight: 500; border-bottom: 1px solid var(--moss-green);">Chi Siamo - Friland</a>
+        </p>
+    </section>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Wait for page load
+        window.addEventListener('load', () => {
+            // Observe gift container
+            const giftContainer = document.getElementById('giftContainer');
+            observer.observe(giftContainer);
+
+            // Observe and animate detail cards
+            const detailCards = document.querySelectorAll('.detail-card');
+            detailCards.forEach(card => {
+                observer.observe(card);
+                // Trigger animation when visible
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, 100);
+            });
+
+            // Observe special message
+            const specialMessage = document.querySelector('.special-message');
+            observer.observe(specialMessage);
+            setTimeout(() => {
+                specialMessage.classList.add('animate-in');
+            }, 100);
+        });
+
+        // Create floating hearts and confetti
+        function createFloatingElement(type) {
+            const container = document.getElementById('floatingHearts');
+            const element = document.createElement('div');
+            
+            if (type === 'heart') {
+                element.className = 'heart';
+                const hearts = ['❤️', '💚', '💛', '💗', '💕'];
+                element.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            } else {
+                element.className = 'confetti';
+                const colors = ['#d4a574', '#8ba888', '#5a7c47', '#e8b4b8', '#d4989d'];
+                element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            element.style.left = Math.random() * 100 + '%';
+            element.style.animationDelay = Math.random() * 5 + 's';
+            element.style.animationDuration = (8 + Math.random() * 4) + 's';
+            
+            container.appendChild(element);
+            
+            setTimeout(() => {
+                element.remove();
+            }, 12000);
+        }
+
+        // Generate floating elements periodically
+        setInterval(() => {
+            createFloatingElement('heart');
+        }, 2000);
+
+        setInterval(() => {
+            createFloatingElement('confetti');
+        }, 500);
+
+        // Initial batch of elements
+        for (let i = 0; i < 10; i++) {
+            setTimeout(() => createFloatingElement('heart'), i * 300);
+            setTimeout(() => createFloatingElement('confetti'), i * 100);
+        }
+
+        // Audio control
+        const audioControl = document.getElementById('audioControl');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        audioControl.addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                audioControl.querySelector('.audio-text').textContent = 'Musica (pausa)';
+            } else {
+                bgMusic.play().catch(e => console.log('Autoplay prevented:', e));
+                audioControl.querySelector('.audio-text').textContent = 'Musica';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Try to autoplay (some browsers might block this)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    audioControl.querySelector('.audio-text').textContent = 'Musica';
+                }).catch(e => {
+                    console.log('Autoplay blocked - user needs to click');
+                    audioControl.querySelector('.audio-text').textContent = 'Clicca per musica';
+                });
+            }, 1000);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
